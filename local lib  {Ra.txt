@@ -10,7 +10,10 @@ local CloseBind = Enum.KeyCode.RightControl
 local ui = Instance.new("ScreenGui")
 ui.Name = "ui"
 ui.Parent = game.CoreGui
-ui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ui.ZIndexBehavior = Enum.ZIndexBehavior.Siblin
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0, 20)  -- 숫자를 높일수록 더 둥글게 됩니다.
+uiCorner.Parent = ui
 
 coroutine.wrap(
     function()
