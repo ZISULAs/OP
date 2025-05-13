@@ -1,3 +1,5 @@
+--[[음...심심해서 만들었는데 생각보다 잘되넨]]
+
 local Client = game.Players.LocalPlayer
 local Humanoid = Client.Character:WaitForChild("Humanoid")
 local HumanoidRootPart = Client.Character.HumanoidRootPart
@@ -16,7 +18,6 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 local revertedRemotes = {}
 local originalMetatables = {}
 
--- Function to validate remote arguments
 local function isValidRemoteArgs(args)
     return #args == 7 and
            type(args[2]) == "string" and  
@@ -27,7 +28,6 @@ local function isValidRemoteArgs(args)
            type(args[7]) == "boolean"
 end
 
--- Function to hook into a remote object
 local function hookRemote(remote)
     if not revertedRemotes[remote] then
         local meta = getrawmetatable(remote)
@@ -35,7 +35,6 @@ local function hookRemote(remote)
             originalMetatables[meta] = true  
             setreadonly(meta, false)  
 
-            -- Hooking into __index
             local oldIndex = meta.__index
             meta.__index = function(self, key)
                 if key == "FireServer" and self:IsA("RemoteEvent") then
@@ -68,7 +67,6 @@ local function hookRemote(remote)
     end
 end
 
--- Function to restore all hooked remotes
 local function restoreRemotes()
     for remote, _ in pairs(revertedRemotes) do
         local meta = getrawmetatable(remote)
@@ -82,14 +80,12 @@ local function restoreRemotes()
     print("Remotes restored.")
 end
 
--- Hook existing remotes in ReplicatedStorage
 for _, remote in pairs(game.ReplicatedStorage:GetChildren()) do
     if remote:IsA("RemoteEvent") or remote:IsA("RemoteFunction") then
         hookRemote(remote)
     end
 end
 
--- Hook new remotes added to ReplicatedStorage
 game.ReplicatedStorage.ChildAdded:Connect(function(child)
     if child:IsA("RemoteEvent") or child:IsA("RemoteFunction") then
         hookRemote(child)
@@ -559,12 +555,10 @@ do
 
             local baseSize = AutoParry.AutoParryDistanceMaxSpeedBased
             if Config.AutoSpam and Global.is_spam then
-                -- 스팸 중일 때: 크기 절반, 빨간색
                 local half = baseSize / 3
                 visualizePart.Size  = Vector3.new(half, half, half)
                 visualizePart.Color = Color3.fromRGB(255, 0, 0)
             else
-                -- 평소: 원래 크기, 흰색
                 visualizePart.Size  = Vector3.new(baseSize, baseSize, baseSize)
                 visualizePart.Color = Color3.fromRGB(255, 255, 255)
             end
